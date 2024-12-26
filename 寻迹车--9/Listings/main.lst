@@ -1,0 +1,226 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              05/10/2023 20:30:29 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit Duoji = P0^0;
+   4          sbit C1 = P2^0;
+   5          sbit C2 = P2^1;
+   6          sbit C3 = P2^2;
+   7          sbit C4 = P2^3;
+   8          sbit C5 = P2^4;
+   9          sbit C6 = P2^5;
+  10          sbit C7 = P2^6;
+  11          sbit C8 = P2^7;
+  12          sbit C9 = P1^0;
+  13          
+  14          sbit IN1=P0^1;
+  15          sbit IN2=P0^2;//控制引脚
+  16          sbit IN3=P0^3;//控制引脚
+  17          sbit IN4=P0^4;
+  18          
+  19          unsigned int Lift_Value = 100,Right_value = 100,Duoji_Value = 16,duoji;
+  20          unsigned int motor_Count = 0,Duoji_Count = 0;
+  21          unsigned int flag=0;
+  22          void delayms(unsigned int i)
+  23          {
+  24   1          unsigned int j;
+  25   1          for(; i>0; i--)
+  26   1              for(j=114; j>0; j--);
+  27   1      }
+  28          
+  29          void System_Init(void)
+  30          {
+  31   1        TMOD = 0x12;
+  32   1        TH1 = 0xFF;
+  33   1        TL1 = 0xD2;
+  34   1        TH0 = 164;
+  35   1        TL0 = 164;
+  36   1        
+  37   1        ET1 = 1;
+  38   1        ET0 = 1;
+  39   1        EA = 1;
+  40   1        
+  41   1        TR1 = 1;
+  42   1        TR0 = 1;
+  43   1      }
+  44          
+  45          unsigned char Search_Line(void)
+  46          {
+  47   1        if((C1==1) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  48   1          return 1;
+  49   1          if((C1==1) && (C2==1) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  50   1          return 2;
+  51   1        if((C1==0) && (C2==1) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  52   1          return 2;
+  53   1        if((C1==0) && (C2==1) &&(C3==1) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  54   1          return 3;
+C51 COMPILER V9.57.0.0   MAIN                                                              05/10/2023 20:30:29 PAGE 2   
+
+  55   1        if((C1==0) && (C2==0) &&(C3==1) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  56   1          return 3;
+  57   1          if((C1==0) && (C2==0) &&(C3==1) &&(C4==1) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  58   1          return 4;
+  59   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==1) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  60   1          return 4;
+  61   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==1) &&(C5==1) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  62   1          return 5;
+  63   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==1) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 0))
+  64   1          return 5;
+  65   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==1) &&(C6==1) &&(C7==0) &&(C8==0) &&(C9== 0))
+  66   1          return 5;
+  67   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==1) &&(C7==0) &&(C8==0) &&(C9== 0))
+  68   1          return 6;
+  69   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==1) &&(C7==1) &&(C8==0) &&(C9== 0))
+  70   1          return 6;
+  71   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==1) &&(C8==0) &&(C9== 0))
+  72   1          return 7;
+  73   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==1) &&(C8==1) &&(C9== 0))
+  74   1          return 7;
+  75   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==1) &&(C9== 0))
+  76   1          return 8;
+  77   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==1) &&(C9== 1))
+  78   1          return 8;
+  79   1        if((C1==0) && (C2==0) &&(C3==0) &&(C4==0) &&(C5==0) &&(C6==0) &&(C7==0) &&(C8==0) &&(C9== 1))
+  80   1          return 9;
+  81   1      //  if((C1==0) && (C2==0) &&(C3==0) &&(C4==1) &&(C5==1) &&(C6==1) &&(C7==0) &&(C8==0) &&(C9== 0))
+  82   1      //  return 0;
+  83   1        else
+  84   1          return 0;
+  85   1      }
+  86          
+  87          void main(void)
+  88          {
+  89   1        unsigned char dadt,dadt_1;
+  90   1        duoji = Duoji_Value;
+  91   1      //  delayms(1000);
+  92   1        System_Init();  
+  93   1        while(1)
+  94   1        {
+  95   2          dadt = Search_Line();
+  96   2          if(dadt == 0)
+  97   2          {
+  98   3              dadt=dadt_1;
+  99   3          }
+ 100   2          dadt_1=dadt;
+ 101   2          switch(dadt)
+ 102   2          {
+ 103   3            case 0: duoji = Duoji_Value+0; Lift_Value = 50;break;//三灯减速
+ 104   3            case 1: duoji = Duoji_Value-5;  Lift_Value = 50;  flag=1;    break;//左电机和右电机的值
+ 105   3            case 2: duoji = Duoji_Value-5 ; Lift_Value = 60;  flag=0;  break;
+ 106   3            case 3: duoji = Duoji_Value-3;  Lift_Value = 40;  flag=0;   break;
+ 107   3            case 4: duoji = Duoji_Value-2;  Lift_Value = 50;  flag=0;   break;
+ 108   3            
+ 109   3            case 5: duoji = Duoji_Value+0;  Lift_Value = 85;  flag=0;  break;
+ 110   3            
+ 111   3            case 6: duoji = Duoji_Value+1;  Lift_Value = 50;  flag=0;   break;
+ 112   3            case 7: duoji = Duoji_Value+2;  Lift_Value = 35;  flag=0;   break;
+ 113   3            case 8: duoji = Duoji_Value+3;  Lift_Value = 45;  flag=0;  break;
+ 114   3            case 9: duoji = Duoji_Value+4;  Lift_Value = 55;  flag=2;    break;
+ 115   3      //      case 10: duoji = Duoji_Value+0; Lift_Value = 30;         break;
+ 116   3          }
+C51 COMPILER V9.57.0.0   MAIN                                                              05/10/2023 20:30:29 PAGE 3   
+
+ 117   2          if(flag==1 && dadt==0)
+ 118   2          {
+ 119   3            //if(dadt==1)
+ 120   3              
+ 121   3      //      flag=0;
+ 122   3             duoji = Duoji_Value-7; 
+ 123   3            Lift_Value = 55; 
+ 124   3      //      delayms(500);
+ 125   3            while(Search_Line()==0);
+ 126   3            
+ 127   3          }
+ 128   2          if(flag==2 && dadt==0)
+ 129   2          {
+ 130   3      //      flag=0;
+ 131   3            duoji = Duoji_Value+4;  
+ 132   3            Lift_Value = 40;
+ 133   3      //      delayms(500);
+ 134   3            while(Search_Line()==0);
+ 135   3          }
+ 136   2          
+ 137   2        }
+ 138   1      }
+ 139          /*
+ 140          控制两路电机
+ 141          */
+ 142          void Timer0_Init(void) interrupt 1
+ 143          {
+ 144   1        motor_Count++;
+ 145   1        if(motor_Count == 100)/* 一个脉冲分成200分 */
+ 146   1        {
+ 147   2          motor_Count = 0;
+ 148   2        }
+ 149   1      /*****************************************************************/ 
+ 150   1        if(motor_Count <= Lift_Value)
+ 151   1        { 
+ 152   2          IN1=0;
+ 153   2          IN2=1;
+ 154   2        }
+ 155   1        else
+ 156   1        {
+ 157   2          IN1=0;
+ 158   2          IN2=0;
+ 159   2        }
+ 160   1      /*****************************************************************/
+ 161   1        if(motor_Count <= Right_value)
+ 162   1        { 
+ 163   2          IN3=1;
+ 164   2          IN4=0;
+ 165   2        }
+ 166   1        else
+ 167   1        {
+ 168   2          IN3=0;
+ 169   2          IN4=0;
+ 170   2        }
+ 171   1      /*****************************************************************/ 
+ 172   1      }
+ 173          
+ 174          /*
+ 175          控制舵机，0.5ms=0°，1.5ms=90°，2.5ms=180°，
+ 176          因为T0会打断T1，所以周期计算不对，不过现在的数正好能使用，
+ 177          Duoji_Value=15，高电平持续时间1.5ms。
+ 178          */
+C51 COMPILER V9.57.0.0   MAIN                                                              05/10/2023 20:30:29 PAGE 4   
+
+ 179          void Timer1_Init(void) interrupt 3
+ 180          { 
+ 181   1        TH1=0xFF;
+ 182   1        TL1=0xD1;
+ 183   1        Duoji_Count++;
+ 184   1        if(Duoji_Count==300)
+ 185   1        {
+ 186   2          Duoji_Count = 0;
+ 187   2        }
+ 188   1        if(Duoji_Count < duoji)
+ 189   1        {
+ 190   2          Duoji = 1;
+ 191   2        }
+ 192   1        else
+ 193   1        {
+ 194   2          Duoji = 0;
+ 195   2        }
+ 196   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1040    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
