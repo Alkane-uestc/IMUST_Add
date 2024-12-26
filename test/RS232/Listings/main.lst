@@ -1,0 +1,62 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              12/23/2024 10:52:41 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Sofeware\MDK536\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          
+   2          #include <REGX52.H>
+   3          void main ()
+   4          {
+   5   1        PCON=0X80;//9600
+   6   1        SCON=0X50;//UART1
+   7   1        TMOD=0X20;
+   8   1        TL1 = 0xFA;   //1/(9600*12/11.0592*16*10^(-6))=6,256-6=250=FA
+   9   1        TH1 = 0xFA;   //设定定时器重装值
+  10   1        ET1=0;
+  11   1        TR1=1;
+  12   1        EA=1;
+  13   1        ES=1;
+  14   1        while(1);
+  15   1        
+  16   1      }
+  17          void CK_send(unsigned char a)
+  18          {
+  19   1        SBUF=a;
+  20   1        while(TI==0);//TI发送标志位
+  21   1        TI=0;
+  22   1      }
+  23            
+  24          void CK()  interrupt 4
+  25          {
+  26   1        unsigned char a;
+  27   1        if(RI==1)//RI接收标志位
+  28   1        {
+  29   2          P2=~SBUF;
+  30   2          RI=0;
+  31   2          if(SBUF=='U')
+  32   2          {
+  33   3            a='A';
+  34   3            
+  35   3            CK_send(a);
+  36   3          }
+  37   2        }
+  38   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     69    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

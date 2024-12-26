@@ -1,0 +1,108 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    12/22/2024  22:33:25  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+D:\SOFEWARE\MDK536\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\1 PRINT (.\Listings\1.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  D:\SOFEWARE\MDK536\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\SOFEWARE\MDK536\C51\LIB\C51S.LIB (?C?COPY)
+
+
+LINK MAP OF MODULE:  .\Objects\1 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         _DATA_GROUP_
+            IDATA   0010H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     00F6H     UNIT         ?C?LIB_CODE
+            CODE    00F9H     002AH     UNIT         ?PR?MAIN?MAIN
+            CODE    0123H     0015H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0138H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0144H     0008H     UNIT         ?CO?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\1 (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  0008H    0008H
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\1 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  C:00F9H         PUBLIC        main
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  12/22/2024  22:33:25  PAGE 2
+
+
+  C:0144H         SYMBOL        _?ix1000
+  C:0123H         PUBLIC        _Delay
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        xms
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0123H         LINE#         3
+  C:0123H         LINE#         4
+  C:0123H         LINE#         6
+  C:012DH         LINE#         7
+  C:012DH         LINE#         8
+  C:012FH         LINE#         9
+  C:0131H         LINE#         11
+  C:0131H         LINE#         12
+  C:0133H         LINE#         13
+  C:0135H         LINE#         14
+  C:0137H         LINE#         15
+  -------         ENDPROC       _DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0003H         SYMBOL        i
+  D:0008H         SYMBOL        a
+  -------         ENDDO         
+  C:00F9H         LINE#         17
+  C:00F9H         LINE#         18
+  C:00F9H         LINE#         19
+  C:010CH         LINE#         20
+  C:010CH         LINE#         21
+  C:010CH         LINE#         22
+  C:010EH         LINE#         23
+  C:010EH         LINE#         24
+  C:0116H         LINE#         25
+  C:011DH         LINE#         26
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        ?C?COPY
+  C:00D3H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+Program Size: data=17.0 xdata=0 code=332
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
